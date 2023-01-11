@@ -1,0 +1,58 @@
+# install.packages("psych")
+# install.packages("ggforce")
+# install.packages("ggdist")
+# install.packages("gghalves")
+
+library(ggplot2) 
+library(tidyverse)
+library(psych)
+library(ggforce)
+library(ggdist)
+library(gghalves)
+
+###Setting of the Graph###
+
+Setting <- list(theme(plot.margin = unit(c(1, 1, 1, 1), "lines")),
+                theme_classic(),
+                theme(axis.title.y = element_text(size = 15, vjust = 1)),
+                labs(title = "TITLE"), 
+                theme(plot.title = element_text(size = 15, colour = "white")),
+                theme(axis.text.y = element_text(size = 15, colour = "black")),
+                scale_color_manual(values = c("#000000")),
+                theme(axis.text.x = element_blank()),
+                theme(axis.title.x = element_blank()),
+                theme(axis.ticks.x = element_blank()),
+                theme(legend.position = "none"))
+
+
+
+df_yolo_ev <- readr::read_csv("check_time.csv")
+df_yolo_ev <- df_yolo_ev %>%
+  mutate(class = 1)
+print(df_yolo_ev)
+
+
+gp1 = ggplot(df_yolo_ev, aes(x = class, y = gap_sec)) + 
+  geom_hline(yintercept=1, colour = "red", size = 2) +
+  ggdist::stat_halfeye(adjust = 0.8, width = 1, .width = 0, justification = -0.5, point_colour = NA)+
+  geom_boxplot(width = 0.6, outlier.shape = NA) +
+  gghalves::geom_half_point(position = position_nudge(x = -.7, y = 0),size = 2, side = "l", range_scale = 1.5, alpha = 0.4) +
+  theme_classic() + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4), breaks = seq(0, 4, 1)) +
+  scale_x_continuous(expand = c(0, 0), limits = c(-1, 3)) +
+  labs(y = "Latency (s)") +
+  Setting +
+  theme(axis.title.x = element_blank())
+gp1
+
+ggsave("Yolo_evaluation_LED_good_graph.png", gp1, width = 2, height = 3, dpi = 300)
+
+describe(df_yolo_ev)
+a = sum(df_yolo_ev$false_pos)
+b = sum(df_yolo_ev$time_min)
+print(b)
+false_pos = b/a
+print(false_pos)
+
+c = sum(df_yolo_ev$false_pos)
+print(c)

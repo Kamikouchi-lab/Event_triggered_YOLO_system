@@ -1,0 +1,50 @@
+
+library(ggplot2) 
+library(tidyverse)
+library(psych)
+
+###Setting of the Graph###
+
+Setting <- list(theme(plot.margin = unit(c(1, 1, 1, 1), "lines")),
+                theme_classic(),
+                theme(axis.title.y = element_text(size = 20, vjust = 1)),
+                labs(title = "TITLE"), 
+                theme(plot.title = element_text(size = 20, colour = "white")),
+                theme(axis.text.y = element_text(size = 20, colour = "black")),
+                scale_fill_manual(values = c("#cccccc")),
+                scale_color_manual(values = c("#000000")),
+                theme(axis.text.x = element_blank()),
+                theme(axis.title.x = element_blank()),
+                theme(axis.ticks.x = element_blank()),
+                theme(legend.position = "none"))
+
+
+
+df_yolo_ev <- readr::read_csv("check_time.csv")
+df_yolo_ev <- df_yolo_ev %>%
+  mutate(class = 1)
+print(df_yolo_ev)
+
+
+gp1 = ggplot(df_yolo_ev, aes(x = class, y = gap_sec)) + 
+  geom_hline(yintercept=1, colour = "red", size = 2) +
+  geom_boxplot(aes(fill = "a"), colour="black") +
+  geom_dotplot(binaxis = "y", stackdir = "center", binwidth = 0.1) +
+  theme_classic() + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4), breaks = seq(0, 4, 1)) +
+  labs(y = "Latency (s)") +
+  Setting +
+  theme(axis.title.x = element_blank())
+gp1
+
+ggsave("Yolo_evaluation_LED.png", gp1, width = 2, height = 3, dpi = 300)
+
+describe(df_yolo_ev)
+a = sum(df_yolo_ev$false_pos)
+b = sum(df_yolo_ev$time_min)
+print(b)
+false_pos = b/a
+print(false_pos)
+
+c = sum(df_yolo_ev$false_pos)
+print(c)
