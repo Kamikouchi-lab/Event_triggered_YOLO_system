@@ -14,7 +14,6 @@ def getModel():
     return model
 
 def main(mdl):
-    #リアルタイム用
 
     now = datetime.datetime.now()
     filename = './movies/' + now.strftime('%Y%m%d_%H%M%S') + '_copulation.mp4'
@@ -25,7 +24,7 @@ def main(mdl):
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')        # 動画保存時のfourcc設定（mp4用）
     video = cv2.VideoWriter(filename, fourcc, 30, (640, 480))
     
-    ###define###
+    ###Defenition###
     num = 0
     cop_state = 0
     non_state = 0
@@ -42,7 +41,7 @@ def main(mdl):
 
         dfs = results.pandas().xyxy[0]
         
-        ###交尾の判定###
+        ###Copulation Decision###
         if len(dfs[(dfs["class"] == 0)&(dfs["confidence"] >= 0.5 )]) != 0:
             cop_state = cop_state + 1 
             non_state = 0
@@ -64,7 +63,7 @@ def main(mdl):
                 # ser.write(b"0")
         dfs["state"] = state
         dfs["old_state"] = old_state
-        ###Arduino シグナル伝達###
+        ###Trigger to Arduino###
         if state != old_state:
             
             if bool(state == 1):
@@ -82,7 +81,7 @@ def main(mdl):
             dfs["signal"] = 0
             old_state = state
         
-        ###write csv###
+        ###Write CSV###
         dfs["frame"] = int(num)
         df_results = pd.concat([df_results, dfs])
         cv2.imshow('frame', frame)

@@ -1,22 +1,21 @@
-const int LED = 13;   
+ const int LED = 13;   
 
-//レジスタの設定を変えるためのもの
 #include <avr/io.h>
 int PWMPin = 10;
 
-//関数の定義
-//frq:周波数 (1Hz~指定できる)
-//duty:指定したいduty比
+
+//frq:frequency (1Hz~)
+//duty:Duty ratio
 void HzWrite(int frq, float duty) { 
 
-    // モード指定
+    // MODE
   TCCR1A = 0b00100001;
-  TCCR1B = 0b00010100; //分周比256を用いる
+  TCCR1B = 0b00010100; 
 
-  // TOP値指定
+  // TOP value
   OCR1A = (unsigned int)(31250 / frq);
 
-  // Duty比指定
+  // Duty ratio
   OCR1B = (unsigned int)(31250 / frq * duty);
 }
 
