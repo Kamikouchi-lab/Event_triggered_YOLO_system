@@ -1,5 +1,7 @@
 # Event-triggered feedback system using YOLO for optogenetic manipulation of neural activity
 
+[![DOI](https://zenodo.org/badge/587573141.svg)](https://zenodo.org/badge/latestdoi/587573141)
+
 ## About System
 paper : TBD
 
