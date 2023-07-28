@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/587573141.svg)](https://zenodo.org/badge/latestdoi/587573141)
 
 # About System
-paper : [![Paper](https://ieeexplore.ieee.org/document/10150245)](https://ieeexplore.ieee.org/document/10150245)
+Paper : [Event-triggered feedback system using YOLO for optogenetic manipulation of neural activity](https://ieeexplore.ieee.org/document/10150245)
 
 ## APs of each model
 
